@@ -1,5 +1,8 @@
 .header {
   padding: 20px 0;
+  background-color: darkblue;
+  display: flex;
+  justify-content: center;
 }
 
 .nav-list {
