@@ -1,8 +1,27 @@
-(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))r(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const a of t.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&r(a)}).observe(document,{childList:!0,subtree:!0});function s(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerpolicy&&(t.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?t.credentials="include":e.crossorigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function r(e){if(e.ep)return;e.ep=!0;const t=s(e);fetch(e.href,t)}})();const i="https://pixabay.com/api/",c="40884603-5ad171707053fe9611639638b",l=({searchQuery:n="",currentPage:o=1,pageSize:s=40})=>fetch(`${i}?image_type=photo&orientation=horizontal&q=${n}&page=${o}&per_page=${s}&key=${c}`).then(r=>r.ok?r.json():Promise.reject(new Error(`No response from server on request ${n}`))),m=n=>{const o=document.querySelector(".gallery");o.innerHTML="";const s=n.map(r=>{const e=document.createElement("img");return e.src=r.webformatURL,e.classList.add("gallery__item"),`
-            <li class="gallery__item">
-                <a href="${r.largeImageURL}">
-                    <img src="${r.webformatURL}" alt="${r.tags}" class="gallery__image" />
-                </a>
-            </li>
-        `}).join("");o.insertAdjacentHTML("afterbegin",s)},u=document.querySelector(".search-form");u.addEventListener("submit",async n=>{n.preventDefault();const s=new FormData(n.target).get("searchQuery");try{const r=await l({searchQuery:s});m(r.hits)}catch(r){console.error(r)}});
+(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))o(r);new MutationObserver(r=>{for(const t of r)if(t.type==="childList")for(const a of t.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&o(a)}).observe(document,{childList:!0,subtree:!0});function n(r){const t={};return r.integrity&&(t.integrity=r.integrity),r.referrerpolicy&&(t.referrerPolicy=r.referrerpolicy),r.crossorigin==="use-credentials"?t.credentials="include":r.crossorigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function o(r){if(r.ep)return;r.ep=!0;const t=n(r);fetch(r.href,t)}})();const i="https://pixabay.com/api/",c="40884603-5ad171707053fe9611639638b",l=({searchQuery:e="",currentPage:s=1,pageSize:n=40})=>fetch(`${i}?image_type=photo&orientation=horizontal&q=${e}&page=${s}&per_page=${n}&key=${c}&safeSearch=true`).then(o=>o.ok?o.json():Promise.reject(new Error(`No response from server on request ${e}`))),f=e=>`
+          <li class="gallery__item">
+              <a href="${e.largeImageURL}">
+                  <img 
+                      src="${e.webformatURL}" 
+                      alt="${e.tags}" 
+                      class="gallery__image" 
+                      loading="lazy"    
+                  />
+              </a>
+              <div class="info">
+                  <p class="info__item">
+                      <b>Likes</b> ${e.likes}
+                  </p>
+                  <p class="info__item">
+                      <b>Views</b> ${e.views}
+                  </p>
+                  <p class="info__item">
+                      <b>Comments</b> ${e.comments}
+                  </p>
+                  <p class="info__item">
+                      <b>Downloads</b> ${e.downloads}
+                  </p> 
+              </div>
+          </li>
+      `,m=e=>{const s=document.querySelector(".gallery");s.innerHTML="";const n=e.map(f).join("");s.insertAdjacentHTML("afterbegin",n)},u=document.querySelector(".search-form");u.addEventListener("submit",async e=>{e.preventDefault();const n=new FormData(e.target).get("searchQuery");try{const o=await l({searchQuery:n});if(!o.hits.length)throw new Error("Sorry, there are no images matching your search query. Please try again.");m(o.hits)}catch(o){console.error(o)}});
 //# sourceMappingURL=commonHelpers.js.map
