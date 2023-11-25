@@ -8,9 +8,10 @@ import {
   renderNotification,
   renderInfo,
   setSimpleLightbox,
-  scrollDown
+  scrollDown,
 } from './ui';
 import { isListEnd, updateRequestData, incrementPage } from './pagination';
+import { enableLoadingOnScroll, disableLoadingOnScroll } from './endlessScroll';
 
 const handleError = error => {
   renderError(error.message);
@@ -23,10 +24,11 @@ const handleListEnd = handleLoad => {
 };
 
 const renderList = (requestData, responseData, handleLoad) => {
-    const isPaginated = requestData.currentPage !== 1;
+  const isPaginated = requestData.currentPage !== 1;
   renderImagesList(responseData.hits, isPaginated);
   setSimpleLightbox();
-  showLoadMoreButton(handleLoad);
+  // showLoadMoreButton(handleLoad);
+  enableLoadingOnScroll(handleLoad);
   renderNotification(`Hooray! We found ${responseData.totalHits} images.`);
   incrementPage();
   if (isPaginated) scrollDown();
@@ -35,7 +37,8 @@ const renderList = (requestData, responseData, handleLoad) => {
 export const setUpForm = searchFormElement => {
   const handleLoad = async event => {
     event.preventDefault();
-    hideLoadMoreButton(handleLoad);
+    // hideLoadMoreButton(handleLoad);
+    disableLoadingOnScroll();
 
     const formData = new FormData(searchFormElement);
     const searchQuery = formData.get('searchQuery');
