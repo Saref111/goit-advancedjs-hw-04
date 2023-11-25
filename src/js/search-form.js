@@ -8,6 +8,7 @@ import {
   renderNotification,
   renderInfo,
   setSimpleLightbox,
+  scrollDown
 } from './ui';
 import { isListEnd, updateRequestData, incrementPage } from './pagination';
 
@@ -22,11 +23,13 @@ const handleListEnd = handleLoad => {
 };
 
 const renderList = (requestData, responseData, handleLoad) => {
-  renderImagesList(responseData.hits, requestData.currentPage !== 1);
+    const isPaginated = requestData.currentPage !== 1;
+  renderImagesList(responseData.hits, isPaginated);
   setSimpleLightbox();
   showLoadMoreButton(handleLoad);
   renderNotification(`Hooray! We found ${responseData.totalHits} images.`);
   incrementPage();
+  if (isPaginated) scrollDown();
 };
 
 export const setUpForm = searchFormElement => {

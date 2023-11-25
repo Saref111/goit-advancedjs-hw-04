@@ -97,3 +97,12 @@ export const setSimpleLightbox = () => {
         lightbox.refresh();
     }
 };
+
+export const scrollDown = () => {
+    const { height: cardHeight } = imagesList.firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+        top: cardHeight * 2,
+        behavior: "smooth",
+    });
+}
