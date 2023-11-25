@@ -7,6 +7,7 @@ import {
   clearList,
   renderNotification,
   renderInfo,
+  setSimpleLightbox,
 } from './ui';
 import { isListEnd, updateRequestData, incrementPage } from './pagination';
 
@@ -15,13 +16,14 @@ const handleError = error => {
   clearList();
 };
 
-const handleListEnd = (handleLoad) => {
+const handleListEnd = handleLoad => {
   hideLoadMoreButton(handleLoad);
   renderInfo("We're sorry, but you've reached the end of search results.");
 };
 
 const renderList = (requestData, responseData, handleLoad) => {
   renderImagesList(responseData.hits, requestData.currentPage !== 1);
+  setSimpleLightbox();
   showLoadMoreButton(handleLoad);
   renderNotification(`Hooray! We found ${responseData.totalHits} images.`);
   incrementPage();
@@ -52,7 +54,7 @@ export const setUpForm = searchFormElement => {
         return;
       }
     } catch (error) {
-        console.log(error);
+      console.log(error);
       handleError(error);
     }
   };

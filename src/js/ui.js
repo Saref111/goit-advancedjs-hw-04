@@ -1,9 +1,12 @@
 import iziToast from 'izitoast';
+import SimpleLightbox from 'simplelightbox';
 
 import 'izitoast/dist/css/iziToast.min.css';
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const loadMoreButtonElement = document.querySelector('.load-more');
 const imagesList = document.querySelector('.gallery');
+let lightbox;
 
 const renderImagesListItem = item => {
   return `
@@ -69,17 +72,28 @@ export const renderError = message => {
 };
 
 export const renderNotification = message => {
-    iziToast.success({
-        title: 'Success',
-        message,
-        position: 'bottomRight',
-    });
-}
+  iziToast.success({
+    title: 'Success',
+    message,
+    position: 'bottomRight',
+  });
+};
 
 export const renderInfo = message => {
-    iziToast.info({
-        title: 'Info',
-        message,
-        position: 'bottomRight',
-    });
-}
+  iziToast.info({
+    title: 'Info',
+    message,
+    position: 'bottomRight',
+  });
+};
+
+export const setSimpleLightbox = () => {
+    if (!lightbox) {
+        lightbox = new SimpleLightbox('.gallery a', {
+            captionsData: 'alt',
+            captionDelay: 250,
+        });
+    } else {
+        lightbox.refresh();
+    }
+};
