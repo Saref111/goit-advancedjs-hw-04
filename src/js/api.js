@@ -7,7 +7,7 @@ export const fetchImages = ({
   pageSize = 40,
 }) => {
   return fetch(
-    `${BASE_URL}?image_type=photo&orientation=horizontal&q=${searchQuery}&page=${currentPage}&per_page=${pageSize}&key=${API_KEY}`
+    `${BASE_URL}?image_type=photo&orientation=horizontal&q=${searchQuery}&page=${currentPage}&per_page=${pageSize}&key=${API_KEY}&safeSearch=true`
   ).then(response => {
     if (response.ok) {
       return response.json();
