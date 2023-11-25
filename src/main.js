@@ -1,35 +1,40 @@
 import { fetchImages } from './js/api';
-import { renderImagesList, renderError } from './js/ui';
+import { renderImagesList, renderError, showLoadMoreButton, hideLoadMoreButton, clearList } from './js/ui';
 
 const searchFormElement = document.querySelector('.search-form');
-const paginationData = {
+const requestData = {
   q: '',
   currentPage: 1,
   pageSize: 40,
 };
-
-searchFormElement.addEventListener('submit', async event => {
+const handleLoad = async event => {
   event.preventDefault();
+  hideLoadMoreButton(handleLoad);
 
-  const formData = new FormData(event.target);
+  const formData = new FormData(searchFormElement);
   const searchQuery = formData.get('searchQuery');
+
+  if (requestData.searchQuery !== searchQuery) {
+    requestData.searchQuery = searchQuery;
+    requestData.currentPage = 1;
+  }
+
   try {
-    if (paginationData.q !== searchQuery) {
-        paginationData.q = searchQuery;
-        paginationData.currentPage = 1;
-    }
-
-    const resp = await fetchImages({ searchQuery, ...paginationData });
-    paginationData.currentPage += 1;
-
+    const resp = await fetchImages({ ...requestData });
+    
     if (!resp.hits.length) {
       throw new Error(
         'Sorry, there are no images matching your search query. Please try again.'
       );
     }
 
-    renderImagesList(resp.hits);
+    renderImagesList(resp.hits, requestData.currentPage !== 1);
+    showLoadMoreButton(handleLoad);
+    requestData.currentPage += 1;
   } catch (error) {
     renderError(error.message);
+    clearList();
   }
-});
+};
+
+searchFormElement.addEventListener('submit', handleLoad);

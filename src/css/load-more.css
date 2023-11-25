@@ -1,0 +1,27 @@
+.load-more {
+  display: none;
+  width: 100px;
+  height: 50px;
+  margin: 20px auto;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.load-more:hover,
+.load-more:focus {
+  background-color: #747bff;
+  color: #fff;
+}
+
+.load-more:active {
+  background-color: #fff;
+  opacity: 0.8;
+  color: #747bff;
+}
+
+.load-more--visible {
+  display: block;
+}

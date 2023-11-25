@@ -1,5 +1,9 @@
 import iziToast from 'izitoast';
+
 import 'izitoast/dist/css/iziToast.min.css';
+
+const loadMoreButtonElement = document.querySelector('.load-more');
+const imagesList = document.querySelector('.gallery');
 
 const renderImagesListItem = item => {
   return `
@@ -30,14 +34,30 @@ const renderImagesListItem = item => {
       `;
 };
 
-export const renderImagesList = list => {
-  const imagesList = document.querySelector('.gallery');
+export const showLoadMoreButton = cb => {
+  if (loadMoreButtonElement.classList.contains('load-more--visible')) return;
 
+  loadMoreButtonElement.addEventListener('click', cb);
+  loadMoreButtonElement.classList.add('load-more--visible');
+};
+
+export const hideLoadMoreButton = cb => {
+  loadMoreButtonElement.removeEventListener('click', cb);
+  loadMoreButtonElement.classList.remove('load-more--visible');
+};
+
+export const clearList = () => {
   imagesList.innerHTML = '';
+};
+
+export const renderImagesList = (list, isPaginated) => {
+  if (!isPaginated) {
+    clearList();
+  }
 
   const imageElements = list.map(renderImagesListItem).join('');
 
-  imagesList.insertAdjacentHTML('afterbegin', imageElements);
+  imagesList.insertAdjacentHTML('beforeend', imageElements);
 };
 
 export const renderError = message => {
