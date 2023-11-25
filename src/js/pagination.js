@@ -1,17 +1,24 @@
 const requestData = {
-  q: '',
+  searchQuery: '',
   currentPage: 1,
   pageSize: 40,
 };
 
-export const isListEnd = (responseData, requestData) => {
-  return responseData.totalHits - requestData.currentPage * requestData.pageSize <= 0;
-}
+export const isListEnd = (responseData, _requestData) => {
+  return (
+    responseData.totalHits - _requestData.currentPage * _requestData.pageSize <=
+    0
+  );
+};
 
 export const updateRequestData = searchQuery => {
-  if (requestData.q !== searchQuery) {
-    requestData.q = searchQuery;
+  if (requestData.searchQuery !== searchQuery) {
+    requestData.searchQuery = searchQuery;
     requestData.currentPage = 1;
   }
-  return requestData;
-}
+  return { ...requestData };
+};
+
+export const incrementPage = () => {
+  requestData.currentPage += 1;
+};

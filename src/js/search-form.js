@@ -8,7 +8,7 @@ import {
   renderNotification,
   renderInfo,
 } from './ui';
-import { isListEnd, updateRequestData } from './pagination';
+import { isListEnd, updateRequestData, incrementPage } from './pagination';
 
 const handleError = error => {
   renderError(error.message);
@@ -24,7 +24,7 @@ const renderList = (requestData, responseData, handleLoad) => {
   renderImagesList(responseData.hits, requestData.currentPage !== 1);
   showLoadMoreButton(handleLoad);
   renderNotification(`Hooray! We found ${responseData.totalHits} images.`);
-  requestData.currentPage += 1;
+  incrementPage();
 };
 
 export const setUpForm = searchFormElement => {
