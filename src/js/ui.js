@@ -1,5 +1,5 @@
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const renderImagesListItem = item => {
   return `
@@ -40,10 +40,10 @@ export const renderImagesList = list => {
   imagesList.insertAdjacentHTML('afterbegin', imageElements);
 };
 
-export const renderError = function(message) {
-    iziToast.error({
-        title: 'Error',
-        message,
-        position: 'topRight',
-    });
-}
+export const renderError = message => {
+  iziToast.error({
+    title: 'Error',
+    message,
+    position: 'topRight',
+  });
+};
