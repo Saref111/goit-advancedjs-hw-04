@@ -19,7 +19,8 @@ const handleError = error => {
 };
 
 const handleListEnd = handleLoad => {
-  hideLoadMoreButton(handleLoad);
+  // hideLoadMoreButton(handleLoad);
+  disableLoadingOnScroll(); // comment this line and uncomment the previous one to use the load more button
   renderInfo("We're sorry, but you've reached the end of search results.");
 };
 
@@ -28,7 +29,7 @@ const renderList = (requestData, responseData, handleLoad) => {
   renderImagesList(responseData.hits, isPaginated);
   setSimpleLightbox();
   // showLoadMoreButton(handleLoad);
-  enableLoadingOnScroll(handleLoad);
+  enableLoadingOnScroll(handleLoad); // comment this line and uncomment the previous one to use the load more button
   renderNotification(`Hooray! We found ${responseData.totalHits} images.`);
   incrementPage();
   if (isPaginated) scrollDown();
@@ -38,7 +39,7 @@ export const setUpForm = searchFormElement => {
   const handleLoad = async event => {
     event.preventDefault();
     // hideLoadMoreButton(handleLoad);
-    disableLoadingOnScroll();
+    disableLoadingOnScroll(); // comment this line and uncomment the previous one to use the load more button
 
     const formData = new FormData(searchFormElement);
     const searchQuery = formData.get('searchQuery');
