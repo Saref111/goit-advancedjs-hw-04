@@ -64,6 +64,22 @@ export const renderError = message => {
   iziToast.error({
     title: 'Error',
     message,
-    position: 'topRight',
+    position: 'bottomRight',
   });
 };
+
+export const renderNotification = message => {
+    iziToast.success({
+        title: 'Success',
+        message,
+        position: 'bottomRight',
+    });
+}
+
+export const renderInfo = message => {
+    iziToast.info({
+        title: 'Info',
+        message,
+        position: 'bottomRight',
+    });
+}

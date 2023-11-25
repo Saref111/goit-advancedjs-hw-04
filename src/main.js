@@ -1,5 +1,13 @@
 import { fetchImages } from './js/api';
-import { renderImagesList, renderError, showLoadMoreButton, hideLoadMoreButton, clearList } from './js/ui';
+import {
+  renderImagesList,
+  renderError,
+  showLoadMoreButton,
+  hideLoadMoreButton,
+  clearList,
+  renderNotification,
+  renderInfo,
+} from './js/ui';
 
 const searchFormElement = document.querySelector('.search-form');
 const requestData = {
@@ -21,16 +29,26 @@ const handleLoad = async event => {
 
   try {
     const resp = await fetchImages({ ...requestData });
-    
+
     if (!resp.hits.length) {
       throw new Error(
         'Sorry, there are no images matching your search query. Please try again.'
       );
     }
 
+    const isListEnd =
+      resp.totalHits - requestData.currentPage * requestData.pageSize <= 0;
+
     renderImagesList(resp.hits, requestData.currentPage !== 1);
     showLoadMoreButton(handleLoad);
+    renderNotification(`Found ${resp.totalHits} images.`);
     requestData.currentPage += 1;
+
+    if (isListEnd) {
+      hideLoadMoreButton(handleLoad);
+      renderInfo("We're sorry, but you've reached the end of search results.");
+      return;
+    }
   } catch (error) {
     renderError(error.message);
     clearList();
