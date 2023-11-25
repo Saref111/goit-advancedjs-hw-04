@@ -11,8 +11,8 @@ export const isListEnd = (responseData, _requestData) => {
   );
 };
 
-export const updateRequestData = searchQuery => {
-  if (requestData.searchQuery !== searchQuery) {
+export const updateRequestData = (searchQuery, targetElement) => {
+  if (requestData.searchQuery !== searchQuery || targetElement.tagName === 'FORM') {
     requestData.searchQuery = searchQuery;
     requestData.currentPage = 1;
   }

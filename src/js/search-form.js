@@ -30,9 +30,13 @@ const renderList = (requestData, responseData, handleLoad) => {
   setSimpleLightbox();
   // showLoadMoreButton(handleLoad);
   enableLoadingOnScroll(handleLoad); // comment this line and uncomment the previous one to use the load more button
-  renderNotification(`Hooray! We found ${responseData.totalHits} images.`);
   incrementPage();
-  if (isPaginated) scrollDown();
+
+  if (isPaginated) {
+    scrollDown();
+  } else {
+    renderNotification(`Hooray! We found ${responseData.totalHits} images.`);
+  }
 };
 
 export const setUpForm = searchFormElement => {
@@ -43,10 +47,11 @@ export const setUpForm = searchFormElement => {
 
     const formData = new FormData(searchFormElement);
     const searchQuery = formData.get('searchQuery');
-    const requestData = updateRequestData(searchQuery);
+    if (!searchQuery.trim()) return renderError('The query string is empty.');
+    const requestData = updateRequestData(searchQuery, event.target);
 
     try {
-      const resp = await fetchImages({ ...requestData });
+      const {data: resp} = await fetchImages({ ...requestData });
 
       if (!resp.hits.length) {
         throw new Error(
