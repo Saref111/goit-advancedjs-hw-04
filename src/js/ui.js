@@ -1,5 +1,8 @@
-const renderImagesListItem = (item) => {
-    return `
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
+const renderImagesListItem = item => {
+  return `
           <li class="gallery__item">
               <a href="${item.largeImageURL}">
                   <img 
@@ -25,7 +28,7 @@ const renderImagesListItem = (item) => {
               </div>
           </li>
       `;
-  }
+};
 
 export const renderImagesList = list => {
   const imagesList = document.querySelector('.gallery');
@@ -36,3 +39,11 @@ export const renderImagesList = list => {
 
   imagesList.insertAdjacentHTML('afterbegin', imageElements);
 };
+
+export const renderError = function(message) {
+    iziToast.error({
+        title: 'Error',
+        message,
+        position: 'topRight',
+    });
+}

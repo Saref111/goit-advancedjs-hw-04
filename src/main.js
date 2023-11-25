@@ -1,5 +1,5 @@
 import { fetchImages } from './js/api';
-import { renderImagesList } from './js/ui';
+import { renderImagesList, renderError } from './js/ui';
 
 const searchFormElement = document.querySelector('.search-form');
 
@@ -17,6 +17,6 @@ searchFormElement.addEventListener('submit', async event => {
 
     renderImagesList(resp.hits);
   } catch (error) {
-    console.error(error);
+    renderError(error.message);
   }
 });
